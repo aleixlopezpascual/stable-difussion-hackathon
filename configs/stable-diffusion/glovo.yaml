@@ -97,7 +97,7 @@ data:
         - "Yoda"
         - "An epic landscape photo of a mountain"
         output_size: 512
-        n_gpus: 2 # small hack to sure we see all our samples
+        n_gpus: 1 # small hack to sure we see all our samples
 
 
 lightning:
