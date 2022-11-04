@@ -8,6 +8,7 @@ from torchvision import transforms
 from einops import rearrange
 from ldm.util import instantiate_from_config
 from datasets import load_dataset
+import io #TODO modified
 
 class FolderData(Dataset):
     def __init__(self, root_dir, caption_file, image_transforms, ext="jpg") -> None:
@@ -63,7 +64,9 @@ def hf_dataset(
 
     def pre_process(examples):
         processed = {}
-        processed[image_key] = [tform(im) for im in examples[image_column]]
+        #processed[image_key] = [tform(im) for im in examples[image_column]]
+        #TODO: modified
+        processed[image_key] = [tform(Image.open(io.BytesIO(im["bytes"]))) for im in examples[image_column]]
         processed[caption_key] = examples[text_column]
         return processed
 

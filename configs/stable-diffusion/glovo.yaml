@@ -72,13 +72,13 @@ model:
 data:
   target: main.DataModuleFromConfig
   params:
-    batch_size: 4
-    num_workers: 4
+    batch_size: 5
+    num_workers: 8
     num_val_workers: 0 # Avoid a weird val dataloader issue
     train:
       target: ldm.data.simple.hf_dataset
       params:
-        name: lambdalabs/pokemon-blip-captions
+        name: DavidAmat/foodiml-asian
         image_transforms:
         - target: torchvision.transforms.Resize
           params:
@@ -92,10 +92,12 @@ data:
       target: ldm.data.simple.TextOnly
       params:
         captions:
-        - "A pokemon with green eyes, large wings, and a hat"
-        - "A cute bunny rabbit"
-        - "Yoda"
-        - "An epic landscape photo of a mountain"
+        - "Uramaki De Salmon Y Aguacate Masago"
+        - "Gyozas de Verduras"
+        - "Edamame"
+        - "Futomaki de langostino en tempura"
+        - "Nigiris de salmón"
+        - "4 makis de salmón picante"
         output_size: 512
         n_gpus: 1 # small hack to sure we see all our samples
 
@@ -105,9 +107,9 @@ lightning:
 
   modelcheckpoint:
     params:
-      every_n_train_steps: 2000
-      save_top_k: -1
-      monitor: null
+      every_n_train_steps: 200
+      save_top_k: 1
+      monitor: "train/loss"
 
   callbacks:
     image_logger:
@@ -131,3 +133,5 @@ lightning:
     benchmark: True
     num_sanity_val_steps: 0
     accumulate_grad_batches: 1
+    max_epochs: 100
+    min_epochs: 10
